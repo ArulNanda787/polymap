@@ -1,0 +1,4 @@
+# "Will the U.S. invade Iran before 2027?" -- the market the paper analyses.
+run_name: iran_2027
+markets:
+  - "0x..."    # REPLACE with the conditionId. Find it with: polymap markets

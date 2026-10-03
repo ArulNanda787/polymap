@@ -1,0 +1,36 @@
+# Baseline settings. Override with a market file or --flags; never edit this
+# to run an experiment, make a new file so the comparison stays reproducible.
+run_name: default
+max_trades_per_market: 10000
+markets: []
+
+api:
+  timeout_sec: 30
+  max_retries: 4
+  sleep_sec: 0.2
+
+graph:
+  # THE research parameter. Every edge count, degree statistic and tightness
+  # classification depends on it. Sweep it and report the sweep.
+  window_seconds: 300
+  max_pairs_per_trade: 0        # 0 = uncapped
+  drop_crowd_timestamps: 0      # 0 = keep market-wide reaction moments
+
+model:
+  hidden_dim: 32
+  temperature: 0.1
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  bptt_chunk: 2000
+  seed: 42
+  device: auto
+
+split:
+  train_fraction: 0.7
+
+screening:
+  min_events: 3
+  persistent_min_span_days: 7.0
+  persistent_min_timestamps: 3
+  tight_max_median_time_diff: 5.0
+  tight_max_median_price_diff: 0.01

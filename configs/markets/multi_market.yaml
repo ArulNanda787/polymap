@@ -1,0 +1,14 @@
+# Several markets at once. Edges are built PER MARKET and never joined across
+# them: within one market all wallets face the same question and resolution, so
+# co-timing is interpretable; across markets it usually just means a news cycle.
+run_name: multi_market
+max_trades_per_market: 10000
+markets:
+  - "0x..."
+  - "0x..."
+  - "0x..."
+graph:
+  window_seconds: 300
+  # Bigger samples mean denser bursts. These guards keep memory bounded.
+  max_pairs_per_trade: 200
+  drop_crowd_timestamps: 50

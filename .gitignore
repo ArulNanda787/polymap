@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Derived artifacts are rebuildable from raw + config.
+data/processed/
+data/artifacts/
+
+# Raw slices are NOT rebuildable: the API returns a different slice each call.
+# Commit them (or use Git LFS if large). Manifests are always committed.
+!data/raw/
+!data/raw/*.manifest.json
