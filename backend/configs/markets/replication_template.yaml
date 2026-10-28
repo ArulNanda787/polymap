@@ -1,0 +1,14 @@
+# Replication of the xi_2027_63d_p50 analysis on a different market.
+# Copy this file to configs/markets/<name>.yaml, then change ONLY run_name and the market id.
+# Every other setting is identical to xi_2027_63d + xi_2027_63d_p50 so the two runs are comparable.
+run_name: REPLACE_ME                # e.g. rep1
+history_days: 63                    # last 63 days up to NOW, so the market must be open and active
+max_trades_per_market: 500000       # safety guard; the newest N are kept if exceeded
+markets:
+  - "0xREPLACE_WITH_CONDITION_ID"
+api:
+  page_size: 500
+graph:
+  window_seconds: 300
+  max_pairs_per_trade: 50
+  drop_crowd_timestamps: 0

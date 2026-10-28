@@ -1,0 +1,11 @@
+run_name: xi_2027_63d
+history_days: 63
+max_trades_per_market: 500000     # safety guard; the newest N are kept if exceeded
+markets:
+  - "0xa467b14d51f01b957109d9cbb1d6c124fab2a089d52ed8f471d23c2812e743b7"
+api:
+  page_size: 500                  # fewer calls; the fetcher tolerates server-side clamping
+graph:
+  window_seconds: 300
+  max_pairs_per_trade: 200        # keeps edge count manageable at this scale
+  drop_crowd_timestamps: 0

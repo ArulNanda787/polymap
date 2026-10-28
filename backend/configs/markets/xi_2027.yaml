@@ -1,0 +1,8 @@
+run_name: xi_2027
+max_trades_per_market: 3000
+markets:
+  - "0xa467b14d51f01b957109d9cbb1d6c124fab2a089d52ed8f471d23c2812e743b7"
+graph:
+  window_seconds: 300
+  max_pairs_per_trade: 200
+  drop_crowd_timestamps: 0

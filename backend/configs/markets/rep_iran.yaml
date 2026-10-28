@@ -1,0 +1,11 @@
+run_name: rep_iran
+history_days: 63
+max_trades_per_market: 500000
+markets:
+  - "0x5db999fad322cea2914535aae5517060c3f80ad6d8c0231cde2124a434d16846"
+api:
+  page_size: 500
+graph:
+  window_seconds: 300
+  max_pairs_per_trade: 50
+  drop_crowd_timestamps: 0
