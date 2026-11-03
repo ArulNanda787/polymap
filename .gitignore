@@ -208,3 +208,4 @@ override.tf.json
 
 # Old frontend kept locally after the 3 Nov 2026 swap
 /frontend_old/
+/backend/Claude outputs/
