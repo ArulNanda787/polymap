@@ -6,6 +6,8 @@ Temporal graph learning for finding related wallets in Polymarket prediction mar
 
 GitHub: <https://github.com/ArulNanda787/polymap> (branch `main`)
 
+> **© 2026 Arul Nanda. All rights reserved.** This repository is public for viewing only. It may not be used, copied, modified or redistributed for any purpose, including research and commercial use, without written permission. See [`LICENSE`](LICENSE).
+
 ---
 
 ## Contents
@@ -22,6 +24,7 @@ GitHub: <https://github.com/ArulNanda787/polymap> (branch `main`)
 10. [Data: where it lives and how to share it](#10-data-where-it-lives-and-how-to-share-it)
 11. [Git notes and known problems](#11-git-notes-and-known-problems)
 12. [Things to remember](#12-things-to-remember)
+13. [License](#13-license)
 
 ---
 
@@ -341,3 +344,9 @@ git add frontend
 - **Moved the folder?** Rebuild `backend/.venv` (§3). Everything else keeps working.
 - **New machine?** Clone the repo, download the data (§10), set up the backend and frontend (§3), recreate `frontend/.env.local`, export `ETHERSCAN_API_KEY`.
 - More backend design detail (the edge-builder speed-up, caching, how to add features, baselines, samplers and stages) is in `backend/README.md`.
+
+---
+
+## 13. License
+
+**All rights reserved** (added 3 Nov 2026, see `LICENSE`). The repo is public only so it can be viewed. Nobody may use the code, models, data or findings for research, commercial or any other purpose without written permission. Do **not** add an open-source license (MIT, Apache, GPL, etc.) or a Creative Commons license unless you intend to give those rights away; once granted, they can't be taken back from people who already received the code under them.
