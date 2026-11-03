@@ -1,0 +1,57 @@
+# Everything below is FROZEN by `python prospective.py freeze`. Choose hyperparameters
+# using development data only (e.g. tune_tgnn.py with split.validation_split on data <= cutoff_ts).
+name: xi_prospective_v1
+
+# Last timestamp (unix seconds) of data you are allowed to look at. Everything later is the test.
+cutoff_ts: 0            # <-- REPLACE, e.g. the max trade timestamp of your development file
+
+graph:
+  window_seconds: 300
+  max_pairs_per_trade: 50
+  drop_crowd_timestamps: 0
+
+universe:               # built from edges <= cutoff_ts ONLY
+  categories: [persistent_tight, one_off_tight]
+  min_events: 3
+  max_pairs: 0
+
+screening:
+  persistent_min_span_days: 7.0
+  persistent_min_timestamps: 3
+  tight_max_median_time_diff: 5.0
+  tight_max_median_price_diff: 0.01
+
+model:                  # must be valid ModelConfig fields
+  hidden_dim: 32
+  learning_rate: 0.003
+  epochs: 20
+  batch_size: 128
+  eval_batch_size: 4
+  pair_features: true
+  memory_updates: true
+  device: cpu
+train_negative: hard
+
+seeds: [42, 43, 44, 45, 46]
+
+eval:
+  samplers: [hard, active]
+  n_negatives: 50
+  eval_seed: 777
+  active_window_seconds: 3600
+  dedupe_same_timestamp_pairs: true
+
+baselines: [recency, pair_count, common_neighbours, adamic_adar, popularity,
+            edgebank_unlimited, edgebank_24h, edgebank_1h]
+
+# Pre-registered decision rule. The comparator is named in advance (not "whichever
+# baseline turned out best"), so the test cannot be made easier or harder afterwards.
+primary:
+  sampler: hard
+  metric: mrr
+  comparator: recency
+  min_gap: 0.0          # supported iff the 95% block-bootstrap CI lower bound of the MRR gap exceeds this
+
+hypotheses:
+  - "H1: on events after cutoff_ts, the frozen model's MRR exceeds the recency baseline's (primary rule above)."
+  - "H2 (secondary, reported either way): the model beats EdgeBank (24h) under the 'active' sampler."

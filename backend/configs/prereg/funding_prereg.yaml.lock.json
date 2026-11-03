@@ -1,0 +1,6 @@
+{
+  "prereg": "configs/prereg/funding_prereg.yaml",
+  "sha256": "380702993e33912847af0e88cb2cb6c2d768d3f53a3d70f248ad0fd0ab38396b",
+  "locked_at_utc": "2026-10-30T06:15:11.908241+00:00",
+  "note": "Locked before re-collecting Xi and Iran transfers, 2026-10-30"
+}

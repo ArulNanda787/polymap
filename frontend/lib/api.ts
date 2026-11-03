@@ -9,7 +9,7 @@ import type {
 } from "./types";
 
 const BASE =
-    import.meta.env.VITE_API_BASE ?? "/api";
+    process.env.NEXT_PUBLIC_API_BASE ?? "http://127.0.0.1:8000";
 
 class ApiError extends Error {
     constructor(message: string, public status: number) {

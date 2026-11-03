@@ -131,7 +131,13 @@ def train(bundle: GraphBundle, split: TemporalSplit, cfg: ModelConfig,
             # Absorb the PREVIOUS batch now (inside the autograd graph), so the
             # message/GRU weights get gradient from this batch's loss. Memory
             # still contains only events strictly before this batch.
-            if pending is not None:
+            if not cfg.memory_updates:
+                # Memory-off ablation: the representation is the static node
+                # encoding. Re-encode every batch so the encoder keeps receiving
+                # gradient after `memory.detach()` (previously it only learned
+                # from the first optimizer step of each epoch).
+                memory = model.initial_memory(x)
+            elif pending is not None:
                 memory = model.advance(memory, *pending)
             pair_pos = pair_history.features(src_np, tgt_np, ts_np)
             pair_neg = pair_history.features(src_np, neg_np, ts_np)
@@ -159,7 +165,10 @@ def train(bundle: GraphBundle, split: TemporalSplit, cfg: ModelConfig,
                 log.info("epoch %d/%d batch %d/%d | loss %.4f | pos %.2f neg %.2f",
                          epoch + 1, cfg.epochs, bi + 1, n_batches, r[0], r[1], r[2])
                 recent.clear()
-        if pending is not None:               # leave memory current for scoring
+        if not cfg.memory_updates:            # static encoding with the final weights
+            with torch.no_grad():
+                memory = model.initial_memory(x)
+        elif pending is not None:             # leave memory current for scoring
             with torch.no_grad():
                 memory = model.advance(memory, *pending)
 

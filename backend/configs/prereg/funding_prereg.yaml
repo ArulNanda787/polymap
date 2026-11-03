@@ -1,0 +1,33 @@
+# PRE-REGISTRATION: edit this file, THEN lock it, THEN look at replication data.
+#   python funding_confirmatory.py lock --prereg configs/prereg/funding_prereg.yaml
+# After locking, any edit makes `run` refuse to execute. Make a new version instead.
+
+name: funding_confirmatory_v1
+
+hypothesis: >
+  Behaviourally-flagged wallet pairs (model-free persistent/one-off tight screen)
+  have a higher rate of the PRIMARY funding measure than coverage-matched
+  non-flagged pairs from the same market.
+
+# ---- primary endpoint (ONE measure; everything else is secondary) -------------
+primary_measure: direct_transfer     # direct_transfer | shared_deposit_funder | shared_any_funder
+shared_funder_cap: 20                # used only by shared_* measures: ignore funders reaching more wallets
+alpha: 0.05                          # ONE-SIDED (candidate > control)
+min_effect: 0.0                      # success needs lower bound > this (e.g. 0.02 for >= 2 points)
+
+# ---- success rule -----------------------------------------------------------
+# supported  = in EVERY replication market: verdict 'supported', AND the pooled
+#              one-sided lower bound (funding_confirmatory.py combine) > min_effect.
+# inconclusive = fewer than min_candidate_pairs usable candidate pairs in a market.
+min_candidate_pairs: 150
+
+# ---- coverage matching -------------------------------------------------------
+controls_per_candidate: 2
+caliper_sd: 1.0                      # max standardised Euclidean distance on the covariates
+truncation_rows: 9500                # a queried wallet with >= this many rows is treated as truncated
+# matched covariates (fixed in code): log co-timing count, min/max log #transfer rows,
+# min days of history before first trade, max days history ends before window end.
+
+# ---- inference ---------------------------------------------------------------
+n_boot: 5000
+seed: 20260101

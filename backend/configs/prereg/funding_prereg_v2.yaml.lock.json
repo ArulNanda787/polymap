@@ -1,0 +1,6 @@
+{
+  "prereg": "configs/prereg/funding_prereg_v2.yaml",
+  "sha256": "72502b2d89c2f700f94f57eedc02621a9d06b4b4023838771f1961d64f79de81",
+  "locked_at_utc": "2026-10-30T18:31:07.280249+00:00",
+  "note": "v2 amendment: truncation from post-recovery check; locked before recover_erc20 and before any funding run"
+}

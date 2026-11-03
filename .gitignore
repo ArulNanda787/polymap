@@ -3,14 +3,22 @@
 # ==========================================
 
 # --- Data: raw, processed, downloaded, generated ---
-data/
-datasets/
-artifacts/
-outputs/
-results/
+# Anchored to specific folders on purpose: bare names like `data/`, `models/`
+# and `runs/` also matched source code (backend/src/polymap/data/,
+# backend/src/polymap/models/) and frontend/data/ + frontend/app/runs/.
+/backend/data/
+/backend/datasets/
+/backend/artifacts/
+/backend/outputs/
+/backend/results/
+/backend/checkpoints/
+/backend/models/
+/backend/runs/
+/data/
+/datasets/
+/models/
+/runs/
 checkpoints/
-models/
-runs/
 mlruns/
 wandb/
 lightning_logs/
@@ -190,11 +198,13 @@ override.tf.json
 **/venv/
 **/__pycache__/
 
-# Research data anywhere in the project
-**/data/
-**/datasets/
+# Research data: see the anchored /backend/data/ rules at the top.
+# (A blanket **/data/ rule here used to hide source code and frontend/data/.)
 
 # Local backup and temporary files
 /backup_before_baselines/
 /untitled folder/
 /untitled folder.zip
+
+# Old frontend kept locally after the 3 Nov 2026 swap
+/frontend_old/

@@ -1,0 +1,50 @@
+# ============================================================================
+# AMENDMENT v2 (supersedes v1, which stays locked and unchanged next to this file)
+# Date: 2026-10-31, BEFORE any confirmatory funding analysis was run on the
+# re-collected transfers (v1 locked 2026-10-30 06:15 UTC; no `run` executed since).
+# Only change: how "truncated history" is decided.
+#   v1: a wallet with >= truncation_rows transfer rows is truncated.
+#   v2: with --truncated-file, truncation comes from find_truncated_wallets.py
+#       run AFTER recover_erc20.py, plus any capped block range the recovery
+#       could not resolve. The row threshold is only a fallback.
+# Reason: recover_erc20.py fetches COMPLETE histories for capped wallets, which
+# then legitimately exceed 10,000 rows. Under v1 they would still be excluded,
+# discarding the recovered coverage. Primary measure, direction, alpha, matching,
+# caliper, success rule and bootstrap are unchanged.
+# ============================================================================
+# PRE-REGISTRATION: edit this file, THEN lock it, THEN look at replication data.
+#   python funding_confirmatory.py lock --prereg configs/prereg/funding_prereg.yaml
+# After locking, any edit makes `run` refuse to execute. Make a new version instead.
+
+name: funding_confirmatory_v2
+
+hypothesis: >
+  Behaviourally-flagged wallet pairs (model-free persistent/one-off tight screen)
+  have a higher rate of the PRIMARY funding measure than coverage-matched
+  non-flagged pairs from the same market.
+
+# ---- primary endpoint (ONE measure; everything else is secondary) -------------
+primary_measure: direct_transfer     # direct_transfer | shared_deposit_funder | shared_any_funder
+shared_funder_cap: 20                # used only by shared_* measures: ignore funders reaching more wallets
+alpha: 0.05                          # ONE-SIDED (candidate > control)
+min_effect: 0.0                      # success needs lower bound > this (e.g. 0.02 for >= 2 points)
+
+# ---- success rule -----------------------------------------------------------
+# supported  = in EVERY replication market: verdict 'supported', AND the pooled
+#              one-sided lower bound (funding_confirmatory.py combine) > min_effect.
+# inconclusive = fewer than min_candidate_pairs usable candidate pairs in a market.
+min_candidate_pairs: 150
+
+# ---- coverage matching -------------------------------------------------------
+controls_per_candidate: 2
+caliper_sd: 1.0                      # max standardised Euclidean distance on the covariates
+truncation_rows: 9500                # FALLBACK ONLY (no --truncated-file): >= this many rows = truncated.
+# With --truncated-file (find_truncated_wallets.py run AFTER recover_erc20.py), a wallet is
+# truncated iff flagged there by the row/end-gap heuristic or still listed in
+# erc20_recovery_report.json remaining_truncated_ranges. Primary runs use the file.
+# matched covariates (fixed in code): log co-timing count, min/max log #transfer rows,
+# min days of history before first trade, max days history ends before window end.
+
+# ---- inference ---------------------------------------------------------------
+n_boot: 5000
+seed: 20260101
